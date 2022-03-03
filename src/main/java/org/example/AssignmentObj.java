@@ -10,6 +10,15 @@ public class AssignmentObj {
     private String zipCode;
 
 
+    /**
+     * Constructor with all parms
+     * @param id unique id
+     * @param bankName bank name
+     * @param type type
+     * @param city city
+     * @param state state
+     * @param zipCode zipCode
+     */
     public AssignmentObj(String id, String bankName, String type, String city, String state, String zipCode) {
         this.id = id;
         this.bankName = bankName;
@@ -18,6 +27,20 @@ public class AssignmentObj {
         this.state = state;
         this.zipCode = zipCode;
     }
+
+    /** Constructor to be use for an object from a file
+     * Just for an easy use
+     * @param fileItem Array of String
+     */
+    public AssignmentObj(String[] fileItem) {
+        this.id = fileItem[0];
+        this.bankName = fileItem[1];
+        this.type = fileItem[2];
+        this.city = fileItem[3];
+        this.state = fileItem[4];
+        this.zipCode = fileItem[5];
+    }
+
 
     public String getId() {
         return id;
@@ -67,6 +90,10 @@ public class AssignmentObj {
         this.zipCode = zipCode;
     }
 
+    /**
+     * To display the object values
+     * @return String
+     */
     @Override
     public String toString() {
         return this.id + ", " +

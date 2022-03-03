@@ -10,11 +10,19 @@ import java.util.*;
 
 public class ReadAndProcessFile {
     private final HashMap<String, List<AssignmentObj>> fileItemHash;
+    private boolean hasHeader = true;
 
     public ReadAndProcessFile() {
         fileItemHash = new HashMap<>();
     }
 
+    /**
+     * Main driver class to run this program.
+     * No Exception handling has implemented yet.
+     * @param args default String array
+     * @throws IOException ioexception
+     * @throws CsvException csvexception
+     */
     public static void main(String[] args) throws IOException, CsvException {
         ReadAndProcessFile driver = new ReadAndProcessFile();
         driver.readFile();
@@ -41,25 +49,33 @@ public class ReadAndProcessFile {
         }
     }
 
+    /**
+     * Main logic to read the file
+     * @throws IOException  IOException
+     * @throws CsvException CsvException
+     */
     public void readFile() throws IOException, CsvException {
-
-        InputStream inputStream = getClass().getResourceAsStream("/ProgrammingAssignment.csv");
+        String fileName = "ProgrammingAssignment.csv";
+        InputStream inputStream = getClass().getResourceAsStream("/" + fileName);
 
         if (!Objects.isNull(inputStream)) {
             CSVReader reader = new CSVReader(new InputStreamReader(inputStream));
+            if (hasHeader) {
+                reader.skip(1);
+            }
 
             String[] lineInArray;
             while ((lineInArray = reader.readNext()) != null) {
-                AssignmentObj anObj = getObjectForARow(lineInArray);
+                AssignmentObj anObj = new AssignmentObj(lineInArray);
                 loadItemWithKeys(anObj);
             }
         }
     }
 
-    private AssignmentObj getObjectForARow(String[] fileItem) {
-        return new AssignmentObj(fileItem[0], fileItem[1],  fileItem[2], fileItem[3], fileItem[4], fileItem[5]);
-    }
-
+    /**
+     * Load file content into map with different keys
+     * @param anObj AssignmentObj
+     */
     private void loadItemWithKeys(AssignmentObj anObj) {
         loadIntoHash(anObj, anObj.getBankName());
         loadIntoHash(anObj, anObj.getType());
@@ -69,6 +85,12 @@ public class ReadAndProcessFile {
         loadIntoHash(anObj, concatKeys(anObj.getCity(), anObj.getState()));
     }
 
+    /**
+     * If key does not exist then add a new entry
+     * Otherwise,  add to an existing key
+     * @param anObj AssignmentObj
+     * @param key String
+     */
     private void loadIntoHash(AssignmentObj anObj, String key) {
         List<AssignmentObj> hashItem = fileItemHash.get(key);
         if (Objects.isNull(hashItem)) {
@@ -80,10 +102,21 @@ public class ReadAndProcessFile {
         }
     }
 
+    /**
+     * Combine two string to create a key
+     * @param key1 String
+     * @param key2 String
+     * @return String
+     */
     private String concatKeys(String key1, String key2) {
         return key1 + "|" + key2;
     }
-    
+
+    /**
+     * Find using a single key
+     * @param key String
+     * @return List<AssignmentObj>
+     */
     public List<AssignmentObj> findBySingleKey(String key) {
         List<AssignmentObj> hashItem = fileItemHash.get(key);
         if (Objects.isNull(hashItem)) {
@@ -95,7 +128,21 @@ public class ReadAndProcessFile {
         }
     }
 
+    /**
+     * Find using multiple keyps
+     * @param key1 String
+     * @param key2 String
+     * @return List<AssignmentObj>
+     */
     public List<AssignmentObj> findByTwoKeys(String key1, String key2) {
         return findBySingleKey(concatKeys(key1, key2));
+    }
+
+    /**
+     * Setter method to set veriable value as needed
+     * @param hasHeader boolean
+     */
+    public void setHasHeader(boolean hasHeader) {
+        this.hasHeader = hasHeader;
     }
 }
