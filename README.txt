@@ -27,7 +27,6 @@ For a 2 values search:
 Note: You can add as many values as you like, once Q is enter, only the first
       two value entered will be used for the search
 
-
 Thoughts on how to implement unit and integration tests:
 * Add tests for reading the input file
     - Valid file
