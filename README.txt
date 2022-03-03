@@ -12,12 +12,12 @@ To execute the jar file:
 Run the following java command:
    java -jar searchByMaven-1.0-SNAPSHOT.jar
 
-To search a file entery, do the following once prompted to enter a value:
+To search a file entry, do the following once prompted to enter a value:
 For a single value search:
     * Enter a key to search
     * Enter Q to quit input
     * Output will be printed on the screen
-    * utput will be printed on the screen based on the key
+    * output will be printed on the screen based on the key
 For a 2 values search:
     * Enter a first key value
     * Enter a second key value
